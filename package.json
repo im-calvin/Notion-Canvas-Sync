@@ -2,6 +2,7 @@
   "dependencies": {
     "@notionhq/client": "^2.2.0",
     "fs": "^0.0.1-security",
-    "node-canvas-api": "^1.7.3"
+    "node-canvas-api": "^1.7.3",
+    "pretty": "^2.0.0"
   }
 }
