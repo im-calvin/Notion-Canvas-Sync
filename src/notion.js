@@ -1,4 +1,5 @@
-const {Client} = require('@notionhq/client')
+const {Client} = require('@notionhq/client');
+const { get } = require('https');
 const icsToCSV = require('./ics_to_csv');
 
 const databaseID = process.env.NOTION_DATABASE_ID
@@ -7,11 +8,13 @@ const notion = new Client({
   auth: process.env.NOTION_KEY,
 })
 
-
-async function addItem(assignmentTitle, assignmentDate) {
+async function addItem(uid, assignmentDate, assignmentTitle) {
   try {
     const response = await notion.pages.create({
-      parent: { database_id: databaseId },
+      parent: { 
+      "type": "database_id", 
+      "database_id": databaseID,
+     },
       properties: {
         "Name": { 
           "title":[
@@ -24,14 +27,26 @@ async function addItem(assignmentTitle, assignmentDate) {
           ]
         },
         "Date": {
+          "type": "date",
           "date": {
             "start": assignmentDate
           }
         },
         "Status": {
-          "status": {
-            "name": "Not Started"
+          "type": "select",
+          "select": {
+            "name": "Not Started",
+            "color": "red"
           }
+        },
+        "uid": {
+          "rich_text": [
+            {
+              "text": {
+                "content": uid
+              }
+            }
+          ]
         }
 
       },
@@ -43,4 +58,9 @@ async function addItem(assignmentTitle, assignmentDate) {
   }
 }
 
-addItem("Yurts in Big Sur, California")
+async function main() {
+  const uidMap = await icsToCSV();
+  addItem('event-assignment-1354508', uidMap.get('event-assignment-1354508')[0], uidMap.get('event-assignment-1354508')[1])
+}
+
+main();

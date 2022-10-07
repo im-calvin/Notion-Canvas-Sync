@@ -1,13 +1,14 @@
 const getCalendar = require('./canvas')
 
 function convertTime(dtStart) {
-  
   if (dtStart.length == 8) {
     dtStart = dtStart.slice(0, 4) + '-' + dtStart.slice(4, 6) + '-' + dtStart.slice(6, 8);
+    const date = new Date(dtStart);
+    return date.toISOString();
   }
+  dtStart = dtStart.slice(0, 4) + '-' + dtStart.slice(4, 6) + '-' + dtStart.slice(6, 11) + ':' + dtStart.slice(11, 13) + ':' + dtStart.slice(13);
   const date = new Date(dtStart);
-  console.log(date.toISOString());
-  return date.toISOString();
+  return date.toISOString(); 
 }
 
 function parseToMap(icsStr, uidMap) {
