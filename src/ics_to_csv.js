@@ -1,6 +1,14 @@
 const getCalendar = require('./canvas')
-const fs = require('fs');
-const https = require('https');
+
+function convertTime(dtStart) {
+  
+  if (dtStart.length == 8) {
+    dtStart = dtStart.slice(0, 4) + '-' + dtStart.slice(4, 6) + '-' + dtStart.slice(6, 8);
+  }
+  const date = new Date(dtStart);
+  console.log(date.toISOString());
+  return date.toISOString();
+}
 
 function parseToMap(icsStr, uidMap) {
 
@@ -16,6 +24,7 @@ function parseToMap(icsStr, uidMap) {
     if (dtStart.startsWith('V')) {
       dtStart = dtStart.substring(22, icsStr.search('\r'));
     }
+    dtStart = convertTime(dtStart);
 
     icsStr = icsStr.substring(icsStr.search("SUMMARY:"));
 
@@ -24,7 +33,6 @@ function parseToMap(icsStr, uidMap) {
     uidMap.set(uid, [dtStart, summary]);
 
   }
-
 }
 
 async function icsToCSV() {
@@ -40,8 +48,9 @@ async function icsToCSV() {
     parseToMap(await response.text(), uidMap);
   }
   
-  console.log(uidMap);
   return uidMap;
 }
+
+icsToCSV();
 
 module.exports = icsToCSV;

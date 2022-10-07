@@ -1,11 +1,12 @@
 const {Client} = require('@notionhq/client')
-import getCalendar from './canvas'
+const icsToCSV = require('./ics_to_csv');
 
 const databaseID = process.env.NOTION_DATABASE_ID
 
 const notion = new Client({
   auth: process.env.NOTION_KEY,
 })
+
 
 async function addItem(assignmentTitle, assignmentDate) {
   try {
