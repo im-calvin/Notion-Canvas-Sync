@@ -36,12 +36,32 @@ async function icsToCSV() {
   for (let entry of pageMap.entries()) {
     let ics = entry[1];
 
-    const response = await fetch(ics);
-    parseToMap(await response.text(), uidMap);
+    // const response = await fetch(ics);
+    
+    await new Promise(async (resolve) => {
+      https.get(ics, (response) => {
+        let data = "";
+        response.on("readable", () => {
+          let chunk;
+          while ((chunk = response.read())) {
+            data += chunk;
+          }
+        });
+
+        response.on("end", async () => {
+          parseToMap(data, uidMap);
+
+          resolve(null);
+        });
+      });
+    });
+
   }
   
   console.log(uidMap);
   return uidMap;
 }
 
-module.exports = icsToCSV;
+// module.exports = icsToCSV;
+
+icsToCSV();
