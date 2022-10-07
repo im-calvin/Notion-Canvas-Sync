@@ -29,9 +29,19 @@ function parseToMap(icsStr, uidMap) {
 
     icsStr = icsStr.substring(icsStr.search("SUMMARY:"));
 
-    let summary = icsStr.substring(8, icsStr.search('\r'));
+    let summary = icsStr.substring(8, icsStr.search('\\[') - 1);
 
-    uidMap.set(uid, [dtStart, summary]);
+    className = icsStr.substring(icsStr.search('\\[') + 1, icsStr.search('\\[') + 9);
+
+    if (summary.includes('\r\n')) {
+      icsStr = icsStr.replace('\r\n', ''); 
+      className = icsStr.substring(icsStr.search('\\[') + 1, icsStr.search('\\[') + 9);
+      console.log(icsStr.substring(icsStr.search('\\[') + 1, icsStr.search('\\[') + 9));
+      uidMap.set(uid, [dtStart, summary, false, className]);
+      continue;
+    }
+
+    uidMap.set(uid, [dtStart, summary, false, className]);
 
   }
 }

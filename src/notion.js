@@ -1,14 +1,13 @@
 const {Client} = require('@notionhq/client');
-const { get } = require('https');
+const fs = require('fs');
 const icsToCSV = require('./ics_to_csv');
 
 const databaseID = process.env.NOTION_DATABASE_ID
-
 const notion = new Client({
   auth: process.env.NOTION_KEY,
 })
 
-async function addItem(uid, assignmentDate, assignmentTitle) {
+async function addItem(uid, assignmentDate, assignmentTitle, className) {
   try {
     const response = await notion.pages.create({
       parent: { 
@@ -35,8 +34,13 @@ async function addItem(uid, assignmentDate, assignmentTitle) {
         "Status": {
           "type": "select",
           "select": {
-            "name": "Not Started",
-            "color": "red"
+            "name": "Not Started"
+          }
+        },
+        "Class": {
+          "type": "select",
+          "select": {
+            "name": className
           }
         },
         "uid": {
@@ -59,8 +63,44 @@ async function addItem(uid, assignmentDate, assignmentTitle) {
 }
 
 async function main() {
-  const uidMap = await icsToCSV();
-  addItem('event-assignment-1354508', uidMap.get('event-assignment-1354508')[0], uidMap.get('event-assignment-1354508')[1])
+  // const uidMap = await icsToCSV();
+  // addItem('event-assignment-1354508', uidMap.get('event-assignment-1354508')[0], uidMap.get('event-assignment-1354508')[1])
 }
 
-main();
+// if no data.json, it will dump to notion
+// if there is a data.json, it will check if it is false and then set to true, and set the remaining to true, and dump those to notion
+async function storeJSON() {
+  const freshData = await icsToCSV();
+
+  try {
+  var staleData = new Map(Object.entries(JSON.parse(fs.readFileSync('./data.json'))));
+  }
+  catch {
+    freshData.forEach( async function(val, key) {
+      await addItem(key, val[0], val[1], val[3]);
+      val[2] = true;
+      freshData.set(key, val);
+    })
+    fs.writeFileSync('./data.json', JSON.stringify(Object.fromEntries(freshData)));
+    return;
+  }
+
+  freshData.forEach( async function(val, key) {
+    if (!staleData.has(key)) {
+      // await addItem(key, val[0], val[1], val[3]);
+    }
+
+    // try catch incase key is not in staledata
+    if (staleData.get(key)[2] == false) {
+      // await addItem(key, val[0], val[1], val[3]);
+    }
+
+    val[2] = true;
+    freshData.set(key, val);
+  });
+
+  fs.writeFileSync('./data.json', JSON.stringify(Object.fromEntries(freshData)));
+
+}
+
+storeJSON();
