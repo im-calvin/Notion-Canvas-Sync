@@ -1,9 +1,8 @@
-const { getCalendar } = require('./src/canvas')
+const getCalendar = require('./canvas')
 const fs = require('fs');
 const https = require('https');
 
-function parseToMap(icsStr) {
-  let uidMap = new Map();
+function parseToMap(icsStr, uidMap) {
 
   while (icsStr.search("BEGIN:VEVENT") != -1) {
     icsStr = icsStr.substring(icsStr.search("UID:"));
@@ -24,43 +23,25 @@ function parseToMap(icsStr) {
 
     uidMap.set(uid, [dtStart, summary]);
 
-    return uidMap;
   }
+
 }
 
 async function icsToCSV() {
   const session = '2022W1';
   const pageMap = await getCalendar(session);
 
+  let uidMap = new Map();
+
   for (let entry of pageMap.entries()) {
-    let code = entry[0].replaceAll(' ', '_').replaceAll('/', '');
     let ics = entry[1];
-    // console.log(ics);
 
-    let filePath = `./ics/${code}.ics`;
-    let data = '';
-    let icsStr = '';
-    let uidMap = new Map();
-
-    let request = https.get(ics, function (response) {
-
-      function read() {
-        let chunk;
-        while (chunk = response.read()) {
-          data += chunk;
-        }
-      }
-
-      response.on('readable', read);
-
-      response.on('end', function () {
-        fs.writeFileSync(filePath, data);
-        icsStr = fs.readFileSync(filePath);
-        uidMap = parseToMap(icsStr.toString());
-      });
-    });
+    const response = await fetch(ics);
+    parseToMap(await response.text(), uidMap);
   }
+  
+  console.log(uidMap);
   return uidMap;
 }
 
-module.exports.icsToCSV = icsToCSV;
+module.exports = icsToCSV;

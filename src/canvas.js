@@ -21,4 +21,4 @@ async function getCalendar(session) {
   return courseMap;
 }
 
-module.exports.calendar = getCalendar;
+module.exports = getCalendar;
