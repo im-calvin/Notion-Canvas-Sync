@@ -7,7 +7,7 @@ const canvasDomain = process.env.CANVAS_API_DOMAIN
 
 const canvasID = 593016
 
-// @params session is in the format '2022W1'
+// @param session is in the format '2022W1'
 async function getCalendar(session) {
   let courses = await canvasAPI.getCoursesByUser(canvasID)
   let courseMap = new Map()
@@ -21,4 +21,4 @@ async function getCalendar(session) {
   return courseMap;
 }
 
-module.exports.getCalendar = getCalendar;
+module.exports.calendar = getCalendar;
