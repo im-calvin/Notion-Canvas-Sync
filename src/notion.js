@@ -62,11 +62,6 @@ async function addItem(uid, assignmentDate, assignmentTitle, className) {
   }
 }
 
-async function main() {
-  // const uidMap = await icsToCSV();
-  // addItem('event-assignment-1354508', uidMap.get('event-assignment-1354508')[0], uidMap.get('event-assignment-1354508')[1])
-}
-
 // if no data.json, it will dump to notion
 // if there is a data.json, it will check if it is false and then set to true, and set the remaining to true, and dump those to notion
 async function storeJSON() {
@@ -87,12 +82,12 @@ async function storeJSON() {
 
   freshData.forEach( async function(val, key) {
     if (!staleData.has(key)) {
-      // await addItem(key, val[0], val[1], val[3]);
+      await addItem(key, val[0], val[1], val[3]);
     }
 
     // try catch incase key is not in staledata
     if (staleData.get(key)[2] == false) {
-      // await addItem(key, val[0], val[1], val[3]);
+      await addItem(key, val[0], val[1], val[3]);
     }
 
     val[2] = true;
