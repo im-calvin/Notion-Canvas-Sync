@@ -22,3 +22,5 @@ async function getCalendar(session) {
 }
 
 module.exports = getCalendar;
+
+getCalendar('2022W1')

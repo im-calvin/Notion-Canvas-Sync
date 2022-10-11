@@ -106,3 +106,7 @@ dist
 # :D 
 .yarn
 data.json
+
+.venv
+
+.vscode

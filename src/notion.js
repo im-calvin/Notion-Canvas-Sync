@@ -1,64 +1,63 @@
-const {Client} = require('@notionhq/client');
-const fs = require('fs');
-const icsToCSV = require('./ics_to_csv');
+const { Client } = require("@notionhq/client");
+const fs = require("fs");
+const icsToCSV = require("./ics_to_csv");
 
-const databaseID = process.env.NOTION_DATABASE_ID
+const databaseID = process.env.NOTION_DATABASE_ID;
 const notion = new Client({
   auth: process.env.NOTION_KEY,
-})
+});
 
 async function addItem(uid, assignmentDate, assignmentTitle, className) {
   try {
     const response = await notion.pages.create({
-      parent: { 
-      "type": "database_id", 
-      "database_id": databaseID,
-     },
-      properties: {
-        "Name": { 
-          "title":[
-            {
-              "type": "text",
-              "text": {
-                "content": assignmentTitle
-              }
-            }
-          ]
-        },
-        "Date": {
-          "type": "date",
-          "date": {
-            "start": assignmentDate
-          }
-        },
-        "Status": {
-          "type": "select",
-          "select": {
-            "name": "Not Started"
-          }
-        },
-        "Class": {
-          "type": "select",
-          "select": {
-            "name": className
-          }
-        },
-        "uid": {
-          "rich_text": [
-            {
-              "text": {
-                "content": uid
-              }
-            }
-          ]
-        }
-
+      parent: {
+        type: "database_id",
+        database_id: databaseID,
       },
-    })
-    console.log(response)
-    console.log("Success! Entry added.")
+      properties: {
+        Name: {
+          title: [
+            {
+              type: "text",
+              text: {
+                content: assignmentTitle,
+              },
+            },
+          ],
+        },
+        Date: {
+          type: "date",
+          date: {
+            start: assignmentDate,
+          },
+        },
+        Status: {
+          type: "select",
+          select: {
+            name: "Not Started",
+          },
+        },
+        Class: {
+          type: "select",
+          select: {
+            name: className,
+          },
+        },
+        uid: {
+          rich_text: [
+            {
+              text: {
+                content: uid,
+              },
+            },
+          ],
+        },
+      },
+    });
+    console.log(response);
+    console.log("Success! Entry added.");
   } catch (error) {
-    console.error(error.body)
+    console.error(error.body);
   }
 }
 
@@ -68,19 +67,18 @@ async function storeJSON() {
   const freshData = await icsToCSV();
 
   try {
-  var staleData = new Map(Object.entries(JSON.parse(fs.readFileSync('./data.json'))));
-  }
-  catch {
-    freshData.forEach( async function(val, key) {
+    var staleData = new Map(Object.entries(JSON.parse(fs.readFileSync("./data.json"))));
+  } catch {
+    freshData.forEach(async function (val, key) {
       await addItem(key, val[0], val[1], val[3]);
       val[2] = true;
       freshData.set(key, val);
-    })
-    fs.writeFileSync('./data.json', JSON.stringify(Object.fromEntries(freshData)));
+    });
+    fs.writeFileSync("./data.json", JSON.stringify(Object.fromEntries(freshData)));
     return;
   }
 
-  freshData.forEach( async function(val, key) {
+  freshData.forEach(async function (val, key) {
     if (!staleData.has(key)) {
       await addItem(key, val[0], val[1], val[3]);
     }
@@ -94,8 +92,7 @@ async function storeJSON() {
     freshData.set(key, val);
   });
 
-  fs.writeFileSync('./data.json', JSON.stringify(Object.fromEntries(freshData)));
-
+  fs.writeFileSync("./data.json", JSON.stringify(Object.fromEntries(freshData)));
 }
 
 storeJSON();
