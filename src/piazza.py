@@ -1,6 +1,5 @@
 from piazza_api import Piazza
 from piazza_api.rpc import PiazzaRPC
-from dotenv import load_dotenv
 import os
 
 # p = Piazza()
