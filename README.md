@@ -31,7 +31,6 @@
  ```
  NOTION_KEY = <INTERNAL INTEGRATION KEY HERE>
  NOTION_DATABASE_ID = <YOUR NOTION DATABASE KEY HERE>
-
  ```
  
  On that same page, there's a box above the blue one labelled **Permissions**, you're going to need to follow the instructions to add the connection that you created in step 1 to your calendar.
