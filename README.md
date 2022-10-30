@@ -32,3 +32,10 @@
  On that same page, there's a box above the blue one labelled **Permissions**, you're going to need to follow the instructions to add the connection that you created in step 1 to your calendar.
  
  You're finally finished setup! To run the program, run the `run.bat` script and you should see your Canvas Calendar auto-populate into your Notion Database :D 
+ 
+ # Automating the Script
+ 
+ Personally, I make Windows run the script every day whenever my computer turns on. Here are the instructions to do so:
+ 1. Search up `Task Scheduler` in the Windows Menu
+ 2. Action -> Import Task -> Choose the `calendar.xml` file from the directory <br>
+=> this creates a task that automatically runs every 24h, and if your computer is off then it'll run when your computer turns on next.
