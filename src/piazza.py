@@ -1,9 +1,9 @@
 from piazza_api import Piazza
-from piazza_api.rpc import PiazzaRPC
+# from piazza_api.rpc import PiazzaRPC
 import os
 
 # p = Piazza()
-p = PiazzaRPC("l7ggtksfq994ji")
+p = Piazza("l7ggtksfq994ji")
 p.user_login(os.getenv("PIAZZA_USER"), os.getenv("PIAZZA_PW"))
 
 user_profile = p.get_user_profile()
