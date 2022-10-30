@@ -7,13 +7,17 @@
   Instructions to do so [are here](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/) (I prefer nvm but anything works)
 
  You're going to want to get a Canvas API key, the instructions to do so are in [this link](https://community.canvaslms.com/t5/Admin-Guide/How-do-I-obtain-an-API-access-token-in-the-Canvas-Data-Portal/ta-p/157).
- You'll also need a CanvasID which is your unique identified on Canvas, [found here](https://community.canvaslms.com/t5/Canvas-Developers-Group/How-to-get-my-canvas-user-ID/m-p/241439), albeit in a very roundabout way
+ You'll also need a CanvasID which is your unique identified on Canvas, [found here](https://github.com/ubc/node-canvas-api), albeit in a very roundabout way
+  In brief, run the `setup.js` file using `node .\setup.js` in the terminal and copy the ID that's printed into the terminal.
 
  After you do that, you're going to want to populate the empty `.env` file that's in the repository.
+ The `SESSION` keyword is going to be in the format "2022W1" for example.
  
  ```
  CANVAS_API_TOKEN = <YOUR API TOKEN HERE>
  CANVAS_API_DOMAIN = https://ubc.instructure.com/api/v1 
+ CANVAS_ID = <YOUR CANVAS ID>
+ SESSION = <2022W1>
 ```
 
  Now to the Notion part, there are two parts:
