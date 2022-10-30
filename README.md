@@ -6,7 +6,8 @@
   
   Instructions to do so [are here](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/) (I prefer nvm but anything works)
 
- You're going to want to get a Canvas API key, the instructions to do so are in [this link](https://community.canvaslms.com/t5/Admin-Guide/How-do-I-obtain-an-API-access-token-in-the-Canvas-Data-Portal/ta-p/157)
+ You're going to want to get a Canvas API key, the instructions to do so are in [this link](https://community.canvaslms.com/t5/Admin-Guide/How-do-I-obtain-an-API-access-token-in-the-Canvas-Data-Portal/ta-p/157).
+ You'll also need a CanvasID which is your unique identified on Canvas, [found here](https://community.canvaslms.com/t5/Canvas-Developers-Group/How-to-get-my-canvas-user-ID/m-p/241439), albeit in a very roundabout way
 
  After you do that, you're going to want to populate the empty `.env` file that's in the repository.
  
