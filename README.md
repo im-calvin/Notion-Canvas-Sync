@@ -26,10 +26,10 @@
  [This link](https://api.notion.com/v1/oauth/authorize?client_id=3b180793-e3f0-4b9a-bb92-1d0a1150dc71&response_type=code&owner=user&redirect_uri=https%3A%2F%2Fgoogle.com) contains the authentication link for the Notion Integration. Follow the steps on screen and allow it access to the proper database where you want the data from the calendar to go.
 
  ## Alternate: Doing it Manually
- # Creating a Connection
+ ### Creating a Connection
  Follow [this guide](https://developers.notion.com/docs/getting-started) to create an integration. 
  
- # Database ID
+ ### Database ID
  To get your database ID, instructions [are here](https://developers.notion.com/docs/working-with-databases#adding-pages-to-a-database) in the blue box where it says **where can I find my database ID**.
  Add that field to the `.env` as well:
  ```
