@@ -22,7 +22,7 @@
 
  Now to the Notion part, there are two options:
  
- ## Authenticating with OAuth
+ ## WIP: Authenticating with OAuth
  [This link](https://api.notion.com/v1/oauth/authorize?client_id=3b180793-e3f0-4b9a-bb92-1d0a1150dc71&response_type=code&owner=user&redirect_uri=https%3A%2F%2Fgoogle.com) contains the authentication link for the Notion Integration. Follow the steps on screen and allow it access to the proper database where you want the data from the calendar to go.
 
  ## Alternate: Doing it Manually
