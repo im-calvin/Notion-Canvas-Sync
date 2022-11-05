@@ -2,9 +2,13 @@ const canvasAPI = require("node-canvas-api");
 
 const canvasDomain = process.env.CANVAS_API_DOMAIN;
 
-const canvasID = process.env.CANVAS_ID
+const canvasID = process.env.CANVAS_ID;
 
-// @param session is in the format '2022W1'
+/**
+ *
+ * @param {string} session is in the format '2022W1'
+ * @returns a map where keys are courseCode and values are links to ics
+ */
 async function getCalendar(session) {
   let courses = await canvasAPI.getCoursesByUser(canvasID);
   let courseMap = new Map();

@@ -1,5 +1,10 @@
 const getCalendar = require("./canvas");
 
+/**
+ *
+ * @param {String} dtStart as the output of an ICS file
+ * @returns date in ISO format
+ */
 function convertTime(dtStart) {
   if (dtStart.length == 8) {
     dtStart = dtStart.slice(0, 4) + "-" + dtStart.slice(4, 6) + "-" + dtStart.slice(6, 8);
@@ -20,6 +25,12 @@ function convertTime(dtStart) {
   return date.toISOString();
 }
 
+/**
+ * mutates the uidMap where key is the uid for the event
+ * and values is [dateStart, summaryString, if file hasn't been loaded into the json file yet, name of class]
+ * @param {String} icsStr long string that is the output of the ics file
+ * @param {Map} uidMap map to be mutated
+ */
 function parseToMap(icsStr, uidMap) {
   while (icsStr.search("BEGIN:VEVENT") != -1) {
     icsStr = icsStr.substring(icsStr.search("UID:"));
@@ -52,8 +63,12 @@ function parseToMap(icsStr, uidMap) {
   }
 }
 
+/**
+ *
+ * @returns {Map} in the same format as `ParseToMap`
+ */
 async function icsToCSV() {
-  const session = process.env.SESSION
+  const session = process.env.SESSION;
   const pageMap = await getCalendar(session);
 
   let uidMap = new Map();

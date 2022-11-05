@@ -7,6 +7,14 @@ const notion = new Client({
   auth: process.env.NOTION_KEY,
 });
 
+/**
+ *
+ * @param {String} uid
+ * @param {String} assignmentDate
+ * @param {String} assignmentTitle
+ * @param {String} className
+ * parameters to be input into Notion calendar
+ */
 async function addItem(uid, assignmentDate, assignmentTitle, className) {
   try {
     const response = await notion.pages.create({
@@ -61,8 +69,11 @@ async function addItem(uid, assignmentDate, assignmentTitle, className) {
   }
 }
 
+/**
 // if no data.json, it will dump to notion
 // if there is a data.json, it will check if it is false and then set to true, and set the remaining to true, and dump those to notion
+ * mutates data.json file by calling addItem
+ */
 async function storeJSON() {
   const freshData = await icsToCSV();
 
