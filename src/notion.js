@@ -1,11 +1,10 @@
 const { Client } = require("@notionhq/client");
-const fs = require("fs");
 const icsToCSV = require("./ics_to_csv");
 
-// const databaseID = process.env.NOTION_DATABASE_ID;
-// const notion = new Client({
-//   auth: process.env.NOTION_KEY,
-// });
+const databaseID = process.env.NOTION_DATABASE_ID;
+const notion = new Client({
+  auth: process.env.NOTION_KEY,
+});
 
 /**
  *
@@ -81,17 +80,16 @@ async function postNotion(
   NOTION_DATABASE_ID,
   NOTION_KEY,
   CANVAS_API_TOKEN,
-  CANVAS_ID,
   SESSION,
   sData
 ) {
   // used in other function
-  var databaseID = NOTION_DATABASE_ID;
-  var notion = new Client({
-    auth: NOTION_KEY,
-  });
+  // var databaseID = NOTION_DATABASE_ID;
+  // var notion = new Client({
+  //   auth: NOTION_KEY,
+  // });
   var staleData = sData;
-  const freshData = await icsToCSV(CANVAS_API_TOKEN, SESSION, CANVAS_ID);
+  const freshData = await icsToCSV(CANVAS_API_TOKEN, SESSION);
 
   // try {
   // var staleData = new Map(Object.entries(JSON.parse(fs.readFileSync("./data.json"))));
@@ -131,7 +129,6 @@ postNotion(
   process.env.NOTION_DATABASE_ID,
   process.env.NOTION_KEY,
   process.env.CANVAS_API_TOKEN,
-  process.env.CANVAS_ID,
   process.env.SESSION,
   undefined
 );

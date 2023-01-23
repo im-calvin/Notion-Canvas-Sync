@@ -9,8 +9,10 @@ const canvasAPI = require("node-canvas-api");
  * @param {string} session is in the format '2022W1'
  * @returns a map where keys are courseCode and values are links to ics
  */
-async function getCalendar(CANVAS_API_TOKEN, CANVAS_ID, SESSION) {
+async function getCalendar(CANVAS_API_TOKEN, SESSION) {
   // requires process.env.CANVAS_API_DOMAIN = https://ubc.instructure.com/api/v1
+  const self = await canvasAPI.getSelf();
+  const CANVAS_ID = self.id;
   let courses = await canvasAPI.getCoursesByUser(Number(CANVAS_ID));
   let courseMap = new Map();
   for (let i = 0; i < courses.length; i++) {

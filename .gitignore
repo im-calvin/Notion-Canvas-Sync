@@ -112,3 +112,4 @@ data.json
 .vscode
 
 .env
+src/firebase.js

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@notionhq/client": "^2.2.0",
+    "firebase": "^9.16.0",
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
     "node-canvas-api": "^1.7.3",
